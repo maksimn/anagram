@@ -7,6 +7,7 @@ using AnagramModel;
 public class WordTests {
     [TestCase("word", "dorw")]
     [TestCase("ток", "кот")]
+    [TestCase("", "")]
     public void AnagramClass_GetAnagramClass_ReturnsCorrectClass(String str, String expected) {
         Word word = new Word(str);
 

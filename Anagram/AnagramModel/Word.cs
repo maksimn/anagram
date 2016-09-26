@@ -2,7 +2,7 @@
 
 namespace AnagramModel {
     public class Word {
-        private String value;
+        public String value;
 
         public Word(String word) {
             value = word;
@@ -10,8 +10,7 @@ namespace AnagramModel {
 
         public String AnagramClass {
             get {
-                String lower = value.ToLower();
-                Char[] chars = lower.ToCharArray();
+                Char[] chars = value.ToLower().ToCharArray();
                 Array.Sort(chars);
                 return new String(chars);
             }
