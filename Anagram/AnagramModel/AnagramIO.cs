@@ -2,17 +2,11 @@
 
 namespace AnagramModel {
     public class AnagramIO {
-        public AnagramClasses anagramClasses;
-        public IWordReader wordReader;
-        
-        public AnagramIO(IWordReader wordReader) {
-            this.wordReader = wordReader;
-            anagramClasses = new AnagramClasses();            
-        }
+        public AnagramClasses anagramClasses = new AnagramClasses();
 
-        public void CreateAnagramClasses() {
+        public void CreateAnagramClasses(IWordReader source) {
             String s;
-            while ((s = wordReader.NextWord()) != null) {
+            while ((s = source.NextWord()) != null) {
                 anagramClasses.AddWord(new Word(s));
             }
         }
