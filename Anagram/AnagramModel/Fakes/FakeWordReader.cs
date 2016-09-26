@@ -14,6 +14,7 @@ namespace AnagramModel.Fakes {
             word.Add("ток");
             word.Add("кто");
             word.Add("ток");
+            word.Add("вертикаль");
             enumerator = word.GetEnumerator();
         }
         public String NextWord() {
