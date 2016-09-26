@@ -38,8 +38,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnagramModel\Fakes\FakeEmptyWordReader.cs" />
+    <Compile Include="AnagramModel\Fakes\FakeWordReader.cs" />
     <Compile Include="AnagramModel\WordTests.cs" />
-    <Compile Include="IntegrationTests\AnagramIntegrationTests.cs" />
+    <Compile Include="AnagramModel\AnagramIOTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

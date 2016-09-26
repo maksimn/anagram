@@ -40,8 +40,6 @@
   <ItemGroup>
     <Compile Include="AnagramModel\AnagramClasses.cs" />
     <Compile Include="AnagramModel\AnagramIO.cs" />
-    <Compile Include="AnagramModel\Fakes\FakeEmptyWordReader.cs" />
-    <Compile Include="AnagramModel\Fakes\FakeWordReader.cs" />
     <Compile Include="AnagramModel\IWordReader.cs" />
     <Compile Include="AnagramModel\Word.cs" />
     <Compile Include="Program.cs" />
