@@ -1,37 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
 using NUnit.Framework;
+using Moq;
 
 using AnagramModel;
-using AnagramModel.Fakes;
 
 [TestFixture]
 class AnagramIOTests {
     [Test]
-    public void AnagramIO_CreateAnagramClasses_AreClassesCorrect () {
+    public void CreateAnagramClasses_DataFromEmptyMoqObject_IntegrationTest() {
         var anagramIO = new AnagramIO();
+        var emptyWordReader = new Mock<IWordReader>();
+        emptyWordReader.Setup(wr => wr.NextWord()).Returns((String)null);
 
-        anagramIO.CreateAnagramClasses(new FakeWordReader());
+        anagramIO.CreateAnagramClasses(emptyWordReader.Object);
 
         var data = anagramIO.anagramClasses.dataStucture;
-        
+        Assert.True(data.Keys.Count == 0);
+    }
+    [Test]
+    public void CreateAnagramClasses_DataFromMoqWordReader_IntegrationTest() {
+        var anagramIO = new AnagramIO();
+        var mockWordReader = new Mock<IWordReader>();
+        mockWordReader.SetupSequence(wr => wr.NextWord())
+            .Returns("колун")
+            .Returns("ток")
+            .Returns("кильватер")
+            .Returns("кот")
+            .Returns("уклон")
+            .Returns("ток")
+            .Returns("кто")
+            .Returns("ток")
+            .Returns("вертикаль")
+            .Returns((String)null);
+
+        anagramIO.CreateAnagramClasses(mockWordReader.Object);
+
+        var data = anagramIO.anagramClasses.dataStucture;
         Assert.True(
-            data.Keys.Contains("клноу") && 
-            data.Keys.Contains("кот") && 
-            data.Keys.Contains("авеиклрть") && 
-            
-            data["клноу"].Contains("колун") && 
-            data["клноу"].Contains("уклон") &&
-            data["клноу"].Count == 2 &&
-
-            data["кот"].Contains("кот") &&
-            data["кот"].Contains("кто") &&
-            data["кот"].Contains("ток") &&
-            data["кот"].Count == 3 &&
-
-            data["авеиклрть"].Contains("вертикаль") &&
-            data["авеиклрть"].Contains("кильватер") &&
-            data["авеиклрть"].Count == 2
+            data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
+            data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
+            data.IsContainKeyAndElements("авеиклрть", "вертикаль", "кильватер")
         );
+    }
+}
+
+static internal class Extensions {
+    public static Boolean IsContainKeyAndElements(
+                        this Dictionary<String, SortedSet<String>> data,
+                        String key,
+                        params String[] values
+    ) {
+        if (!data.Keys.Contains(key)) {
+            return false;
+        }
+        foreach (String word in values) {
+            if (!data[key].Contains(word)) {
+                return false;
+            }
+        }
+        return data[key].Count == values.Length;
     }
 }
