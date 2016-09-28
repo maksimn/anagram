@@ -4,14 +4,20 @@ using AnagramModel;
 
 class Program {
     static void Main(String[] args) {
-        String file = @"F:\Dev\Anagram\TestData\example1.txt";
+        if (args.Length != 1) {
+            Console.WriteLine("You should pass a parameter from the command line.\n" +
+                              "This parameter must be a file name or a full path to a text file.\n");
+            return;
+        }
+        // Рабочий параметр:
+        // @"F:\Dev\Anagram\TestData\example1.txt"
+
         var anagramMaker = new AnagramMaker();
 
-        var anagrams = anagramMaker.CreateAnagramClasses(
-            new FileWordReader(file)
-        );
+        var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(args[0]));
 
-        // new ConsoleWordWriter().Write(anagrams);
-        new FileWordWriter(file + ".result.txt").Write(anagrams);
+        new FileWordWriter(args[0] + ".result.txt").Write(anagrams);
+
+        Console.WriteLine("Results are successfully written in " + args[0] + ".result.txt");
     }
 }
