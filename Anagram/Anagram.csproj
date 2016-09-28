@@ -41,6 +41,7 @@
     <Compile Include="AnagramModel\AnagramClasses.cs" />
     <Compile Include="AnagramModel\AnagramMaker.cs" />
     <Compile Include="AnagramModel\FileWordReader.cs" />
+    <Compile Include="AnagramModel\FileWordWriter.cs" />
     <Compile Include="AnagramModel\IWordReader.cs" />
     <Compile Include="AnagramModel\IWordWriter.cs" />
     <Compile Include="AnagramModel\Word.cs" />

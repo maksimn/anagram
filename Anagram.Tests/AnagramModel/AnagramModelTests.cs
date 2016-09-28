@@ -57,7 +57,9 @@ class AnagramModelTests {
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
-            data.IsContainKeyAndElements("авеиклрть", "вертикаль", "кильватер")
+            data.IsContainKeyAndElements("авеиклрть", "вертикаль", "кильватер") &&
+            data.IsContainKeyAndElements("епрст", "епрст") &&
+            data.Keys.Count == 4
         );
     }
 }
