@@ -10,7 +10,7 @@ using AnagramModel;
 [TestFixture]
 class AnagramIOTests {
     [Test]
-    public void CreateAnagramClasses_DataFromEmptyMoqObject_IntegrationTest() {
+    public void CreateAnagramClasses_DataFromEmptyMoqObject() {
         var anagramIO = new AnagramIO();
         var emptyWordReader = new Mock<IWordReader>();
         emptyWordReader.Setup(wr => wr.NextWord()).Returns((String)null);
@@ -21,9 +21,7 @@ class AnagramIOTests {
         Assert.True(data.Keys.Count == 0);
     }
     [Test]
-    public void CreateAnagramClasses_DataFromMoqWordReader_IntegrationTest() {
-        // Этот тест тестирует совместную работу двух классов --
-        // AnagramIO и AnagramClasses.
+    public void CreateAnagramClasses_DataFromMoqWordReader() {
         var anagramIO = new AnagramIO();
         var mockWordReader = new Mock<IWordReader>();
         mockWordReader.SetupSequence(wr => wr.NextWord())
@@ -39,6 +37,21 @@ class AnagramIOTests {
             .Returns((String)null);
 
         var anagrams = anagramIO.CreateAnagramClasses(mockWordReader.Object);
+
+        var data = anagrams.Classes;
+        Assert.True(
+            data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
+            data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
+            data.IsContainKeyAndElements("авеиклрть", "вертикаль", "кильватер")
+        );
+    }
+    [Test]
+    public void CreateAnagramClasses_DataFromRealFile_IntegrationTest() {
+        var anagramIO = new AnagramIO();
+
+        var anagrams = anagramIO.CreateAnagramClasses(
+            new FileWordReader(@"F:\Dev\Anagram\TestData\example1.txt")    
+        );
 
         var data = anagrams.Classes;
         Assert.True(
