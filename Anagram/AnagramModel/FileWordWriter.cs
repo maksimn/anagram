@@ -11,7 +11,7 @@ namespace AnagramModel {
             outFileName = fileName;
         }
 
-        public void Write(IDictionary<String, SortedSet<String>> anagrams) {
+        public void Write(IDictionary<String, ICollection<String>> anagrams) {
             using (StreamWriter sw = File.CreateText(outFileName)) {
                 foreach (var anagramClass in anagrams) {
                     var last = anagramClass.Value.Last();
@@ -27,7 +27,7 @@ namespace AnagramModel {
     }
 
     public class ConsoleWordWriter : IWordWriter {
-        public void Write(IDictionary<String, SortedSet<String>> anagrams) {
+        public void Write(IDictionary<String, ICollection<String>> anagrams) {
             foreach (var anagramClass in anagrams) {
                 var last = anagramClass.Value.Last();
 

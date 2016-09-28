@@ -38,7 +38,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnagramModel\AnagramClasses.cs" />
     <Compile Include="AnagramModel\AnagramMaker.cs" />
     <Compile Include="AnagramModel\FileWordReader.cs" />
     <Compile Include="AnagramModel\FileWordWriter.cs" />

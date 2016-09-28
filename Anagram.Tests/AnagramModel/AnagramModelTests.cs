@@ -66,7 +66,7 @@ class AnagramModelTests {
 
 static internal class Extensions {
     public static Boolean IsContainKeyAndElements(
-                        this IDictionary<String, SortedSet<String>> data,
+                        this IDictionary<String, ICollection<String>> data,
                         String key,
                         params String[] values
     ) {
