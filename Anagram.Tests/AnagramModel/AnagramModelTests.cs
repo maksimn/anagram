@@ -8,21 +8,21 @@ using Moq;
 using AnagramModel;
 
 [TestFixture]
-class AnagramIOTests {
+class AnagramModelTests {
     [Test]
     public void CreateAnagramClasses_DataFromEmptyMoqObject() {
-        var anagramIO = new AnagramIO();
+        var anagramMaker = new AnagramMaker();
         var emptyWordReader = new Mock<IWordReader>();
         emptyWordReader.Setup(wr => wr.NextWord()).Returns((String)null);
 
-        var anagrams = anagramIO.CreateAnagramClasses(emptyWordReader.Object);
+        var anagrams = anagramMaker.CreateAnagramClasses(emptyWordReader.Object);
 
-        var data = anagrams.Classes;
+        var data = anagrams;
         Assert.True(data.Keys.Count == 0);
     }
     [Test]
     public void CreateAnagramClasses_DataFromMoqWordReader() {
-        var anagramIO = new AnagramIO();
+        var anagramMaker = new AnagramMaker();
         var mockWordReader = new Mock<IWordReader>();
         mockWordReader.SetupSequence(wr => wr.NextWord())
             .Returns("колун")
@@ -36,9 +36,9 @@ class AnagramIOTests {
             .Returns("вертикаль")
             .Returns((String)null);
 
-        var anagrams = anagramIO.CreateAnagramClasses(mockWordReader.Object);
+        var anagrams = anagramMaker.CreateAnagramClasses(mockWordReader.Object);
 
-        var data = anagrams.Classes;
+        var data = anagrams;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
@@ -47,13 +47,13 @@ class AnagramIOTests {
     }
     [Test]
     public void CreateAnagramClasses_DataFromRealFile_IntegrationTest() {
-        var anagramIO = new AnagramIO();
+        var anagramMaker = new AnagramMaker();
 
-        var anagrams = anagramIO.CreateAnagramClasses(
+        var anagrams = anagramMaker.CreateAnagramClasses(
             new FileWordReader(@"F:\Dev\Anagram\TestData\example1.txt")    
         );
 
-        var data = anagrams.Classes;
+        var data = anagrams;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
