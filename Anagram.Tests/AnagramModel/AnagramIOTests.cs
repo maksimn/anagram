@@ -15,13 +15,15 @@ class AnagramIOTests {
         var emptyWordReader = new Mock<IWordReader>();
         emptyWordReader.Setup(wr => wr.NextWord()).Returns((String)null);
 
-        anagramIO.CreateAnagramClasses(emptyWordReader.Object);
+        var anagrams = anagramIO.CreateAnagramClasses(emptyWordReader.Object);
 
-        var data = anagramIO.anagramClasses.dataStucture;
+        var data = anagrams.Classes;
         Assert.True(data.Keys.Count == 0);
     }
     [Test]
     public void CreateAnagramClasses_DataFromMoqWordReader_IntegrationTest() {
+        // Этот тест тестирует совместную работу двух классов --
+        // AnagramIO и AnagramClasses.
         var anagramIO = new AnagramIO();
         var mockWordReader = new Mock<IWordReader>();
         mockWordReader.SetupSequence(wr => wr.NextWord())
@@ -36,9 +38,9 @@ class AnagramIOTests {
             .Returns("вертикаль")
             .Returns((String)null);
 
-        anagramIO.CreateAnagramClasses(mockWordReader.Object);
+        var anagrams = anagramIO.CreateAnagramClasses(mockWordReader.Object);
 
-        var data = anagramIO.anagramClasses.dataStucture;
+        var data = anagrams.Classes;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
@@ -49,7 +51,7 @@ class AnagramIOTests {
 
 static internal class Extensions {
     public static Boolean IsContainKeyAndElements(
-                        this Dictionary<String, SortedSet<String>> data,
+                        this IDictionary<String, SortedSet<String>> data,
                         String key,
                         params String[] values
     ) {
@@ -61,6 +63,6 @@ static internal class Extensions {
                 return false;
             }
         }
-        return data[key].Count == values.Length;
+        return data[key].Count() == values.Length;
     }
 }

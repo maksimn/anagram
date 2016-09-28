@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AnagramModel {
     public class AnagramClasses {
-        public Dictionary<String, SortedSet<String>> dataStucture = 
+        private Dictionary<String, SortedSet<String>> dataStucture = 
             new Dictionary<String, SortedSet<String>>();
         public void AddWord(Word word) {
             if(!String.IsNullOrWhiteSpace(word.value)) {
@@ -14,6 +14,12 @@ namespace AnagramModel {
                 } else {
                     dataStucture[word.AnagramClass].Add(word.value);
                 }
+            }
+        }
+
+        public IDictionary<String, SortedSet<String>> Classes {
+            get {
+                return dataStucture;
             }
         }
     }
