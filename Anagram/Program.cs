@@ -1,8 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 
 using AnagramModel;
 
 class Program {
+    static void Anagrams(String inFile, String outFile) {
+        var anagramMaker = new AnagramMaker();
+
+        var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(inFile));
+
+        new FileWordWriter(outFile).Write(anagrams);
+
+        Console.WriteLine("\nResults are successfully written in " + outFile);
+    }
+
     static void Main(String[] args) {
         if (args.Length != 1) {
             Console.WriteLine("\nYou should pass a parameter from the command line.\n" +
@@ -11,13 +22,15 @@ class Program {
         }
         // Рабочий параметр:
         // @"F:\Dev\Anagram\TestData\example1.txt"
+        Stopwatch stopWatch = new Stopwatch();
+        stopWatch.Start();
 
-        var anagramMaker = new AnagramMaker();
+        Anagrams(args[0], args[0] + ".result.txt");
 
-        var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(args[0]));
-
-        new FileWordWriter(args[0] + ".result.txt").Write(anagrams);
-
-        Console.WriteLine("\nResults are successfully written in " + args[0] + ".result.txt");
+        stopWatch.Stop();
+        TimeSpan ts = stopWatch.Elapsed;
+        String elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
+            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+        Console.WriteLine("Anagrams() method execution time: " + elapsedTime);
     }
 }

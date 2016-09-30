@@ -20,7 +20,7 @@ namespace AnagramModel {
                         if (word != last)
                             sw.Write(word + ", ");
                     }
-                    sw.Write(last + "\n");
+                    sw.WriteLine(last);
                 }
             }
         }
