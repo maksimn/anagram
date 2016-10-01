@@ -43,7 +43,6 @@
     <Compile Include="AnagramModel\FileWordWriter.cs" />
     <Compile Include="AnagramModel\IWordReader.cs" />
     <Compile Include="AnagramModel\IWordWriter.cs" />
-    <Compile Include="AnagramModel\Word.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

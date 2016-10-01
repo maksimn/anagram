@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnagramModel\DataFileMaker.cs" />
-    <Compile Include="AnagramModel\WordTests.cs" />
     <Compile Include="AnagramModel\AnagramModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

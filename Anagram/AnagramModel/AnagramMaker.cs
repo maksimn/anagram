@@ -7,14 +7,14 @@ namespace AnagramModel {
         private IDictionary<String, ICollection<String>> dataStucture =
             new Dictionary<String, ICollection<String>>();
 
-        public void AddWord(Word word) {
-            if (!String.IsNullOrWhiteSpace(word.value)) {
-                if (!dataStucture.ContainsKey(word.AnagramClass)) {
+        public void AddWord(String word) {
+            if (!String.IsNullOrWhiteSpace(word)) {
+                if (!dataStucture.ContainsKey(AnagramClass(word))) {
                     var words = new SortedSet<String>();
-                    words.Add(word.value);
-                    dataStucture.Add(word.AnagramClass, words);
+                    words.Add(word);
+                    dataStucture.Add(AnagramClass(word), words);
                 } else {
-                    dataStucture[word.AnagramClass].Add(word.value);
+                    dataStucture[AnagramClass(word)].Add(word);
                 }
             }
         }
@@ -22,9 +22,15 @@ namespace AnagramModel {
         public IDictionary<String, ICollection<String>> CreateAnagramClasses(IWordReader source) {
             String s;
             while ((s = source.NextWord()) != null) {
-                AddWord(new Word(s));
+                AddWord(s);
             }
             return dataStucture;
+        }
+
+        public String AnagramClass(String word) {
+            Char[] chars = word.ToLower().ToCharArray();
+            Array.Sort(chars);
+            return new String(chars);
         }
     }
 }

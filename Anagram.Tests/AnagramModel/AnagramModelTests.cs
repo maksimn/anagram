@@ -9,6 +9,14 @@ using AnagramModel;
 
 [TestFixture]
 class AnagramModelTests {
+    [TestCase("word", "dorw")]
+    [TestCase("ток", "кот")]
+    [TestCase("", "")]
+    public void AnagramClass_GetAnagramClass_ReturnsCorrectClass(String str, String expected) {
+        var anagramMaker = new AnagramMaker();
+
+        Assert.AreEqual(expected, anagramMaker.AnagramClass(str));
+    }
     [Test]
     public void CreateAnagramClasses_DataFromEmptyMoqObject() {
         var anagramMaker = new AnagramMaker();
