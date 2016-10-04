@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using AnagramModel.Utils;
+
 namespace AnagramModel {
     public class AnagramMaker {
         private IDictionary<String, ICollection<String>> dataStucture =
@@ -20,9 +22,20 @@ namespace AnagramModel {
         }
 
         public IDictionary<String, ICollection<String>> CreateAnagramClasses(IWordReader source) {
+            Int64 counter = 0;
             String s;
             while ((s = source.NextWord()) != null) {
                 AddWord(s);
+                counter++;
+                if(counter % AnagramMakerUtils.NumOfAddedWordsBetweenMemoryChecks == 0) {
+                    Console.WriteLine("Memory: " + AnagramMakerUtils.GetTotalMemoryUsage());
+                    if (AnagramMakerUtils.GetTotalMemoryUsage() > AnagramMakerUtils.MaxMemorySize) {
+                        // Здесь нужно записать текущие результаты во временный файл,
+                        // освободить память и продолжить дальше до конца
+                        Console.WriteLine("Memory Size is more than limit.");
+                        return null; 
+                    }
+                }
             }
             return dataStucture;
         }

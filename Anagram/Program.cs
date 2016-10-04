@@ -2,10 +2,28 @@
 using System.Diagnostics;
 
 using AnagramModel;
+using AnagramModel.Utils;
 
 class Program {
+    static Stopwatch stopWatch;
+
+    static void MeasureProgramExecutionTimeStart() {
+        stopWatch = new Stopwatch();
+        stopWatch.Start();
+    }
+
+    static void MeasureProgramExecutionTimeEnd() {
+        stopWatch.Stop();
+        TimeSpan ts = stopWatch.Elapsed;
+        String elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
+            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+        Console.WriteLine("Anagrams() method execution time: " + elapsedTime);
+    }
+
     static void Anagrams(String inFile, String outFile) {
         var anagramMaker = new AnagramMaker();
+        AnagramMakerUtils.InFile = inFile;
+        AnagramMakerUtils.OutFile = outFile;
 
         var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(inFile));
 
@@ -20,17 +38,11 @@ class Program {
                               "This parameter must be a file name or a full path to a text file.\n");
             return;
         }
-        // Рабочий параметр:
-        // @"F:\Dev\Anagram\TestData\example1.txt"
-        Stopwatch stopWatch = new Stopwatch();
-        stopWatch.Start();
+
+        MeasureProgramExecutionTimeStart();
 
         Anagrams(args[0], args[0] + ".result.txt");
 
-        stopWatch.Stop();
-        TimeSpan ts = stopWatch.Elapsed;
-        String elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
-            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
-        Console.WriteLine("Anagrams() method execution time: " + elapsedTime);
+        MeasureProgramExecutionTimeEnd();
     }
 }
