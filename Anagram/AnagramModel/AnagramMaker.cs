@@ -45,14 +45,8 @@ namespace AnagramModel {
                     dataStucture = new Dictionary<String, ICollection<String>>();
                 }
             }
-            var anagramResult = new AnagramResult();
-            anagramResult.IsResultInTmpFolder = utils.IsTmpFolderExist;
-            if(anagramResult.IsResultInTmpFolder) {
-                anagramResult.Result = utils.TmpFolderName;
-            } else {
-                anagramResult.Result = dataStucture;
-            }
-            return anagramResult;
+            return new AnagramResult(utils.IsTmpFolderExist,
+                                                  dataStucture, utils.TmpFolderName);
         }
 
         public String AnagramClass(String word) {

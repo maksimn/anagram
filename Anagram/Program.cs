@@ -25,9 +25,12 @@ class Program {
 
         var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(inFile));
 
-        new FileWordWriter(outFile).Write(null);
+        if (anagrams.IsResultInTmpFolder) {
 
-        // Console.WriteLine("\nResults are successfully written in " + outFile);
+        } else {
+            new FileWordWriter(outFile).Write(anagrams.Data);
+        }
+        Console.WriteLine("\nResults are successfully written in " + outFile);
     }
 
     static void Main(String[] args) {

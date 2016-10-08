@@ -26,7 +26,7 @@ class AnagramModelTests {
 
         var anagrams = anagramMaker.CreateAnagramClasses(emptyWordReader.Object);
 
-        var data = anagrams.Result;
+        var data = anagrams.Data;
         Assert.True(data.Keys.Count == 0);
     }
     [Test]
@@ -47,7 +47,7 @@ class AnagramModelTests {
 
         var anagrams = anagramMaker.CreateAnagramClasses(mockWordReader.Object);
 
-        var data = (IDictionary<String, ICollection<String>>)anagrams.Result;
+        var data = anagrams.Data;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
@@ -63,7 +63,7 @@ class AnagramModelTests {
             new FileWordReader(inFile)    
         );
 
-        var data = (IDictionary<String, ICollection<String>>)anagrams.Result;
+        var data = anagrams.Data;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&

@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnagramModel {
     public class AnagramResult {
-        public Boolean IsResultInTmpFolder { get; set; }
-        public dynamic Result { get; set; }
+        public AnagramResult(Boolean isResultInTmpFolder, 
+                             IDictionary<String, ICollection<String>> dataStructure, 
+                             String tmpFolderPath) {
+            IsResultInTmpFolder = isResultInTmpFolder;
+            TmpFolderPath = IsResultInTmpFolder ? tmpFolderPath : null;
+            Data = IsResultInTmpFolder ? null: dataStructure;
+        }
+        public Boolean IsResultInTmpFolder { get; }
+        public String TmpFolderPath { get; }
+        public IDictionary<String, ICollection<String>> Data { get; }
     }
 }
