@@ -39,11 +39,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnagramModel\AnagramMaker.cs" />
+    <Compile Include="AnagramModel\AnagramResult.cs" />
     <Compile Include="AnagramModel\FileWordReader.cs" />
     <Compile Include="AnagramModel\FileWordWriter.cs" />
     <Compile Include="AnagramModel\IWordReader.cs" />
     <Compile Include="AnagramModel\IWordWriter.cs" />
     <Compile Include="AnagramModel\Utils\AnagramMakerUtils.cs" />
+    <Compile Include="AnagramModel\Utils\IAnagramUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

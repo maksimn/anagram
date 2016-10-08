@@ -1,24 +1,48 @@
 ﻿using System;
 
 namespace AnagramModel.Utils {
-    public static class AnagramMakerUtils {
-        public static Int32 NumOfAddedWordsBetweenMemoryChecks {
+    public class AnagramMakerUtils : IAnagramUtils {
+        private readonly String inFile, outFile;
+
+        public AnagramMakerUtils(String inFile, String outFile) {
+            this.inFile = inFile;
+            this.outFile = outFile;
+        }
+        public Int32 NumWordsBetweenMemoryChecks {
             get {
                 return 1000;
             }
         }
 
-        public static Int64 MaxMemorySize {
+        public Int64 MaxMemorySize {
             get {
                 return 100 * 1024 * 1024; // 100 MB?
             }
         }
 
-        public static Int64 GetTotalMemoryUsage() {
+        public Int64 GetTotalMemoryUsage() {
             return GC.GetTotalMemory(false);
         }
 
-        public static String InFile { get; set; }
-        public static String OutFile { get; set; }
+        public void CreateTmpFolder() {
+            throw new NotImplementedException();
+        }
+
+        public String CreateFileInTmpFolder() {
+            return null;
+        }
+
+        public String InFile { get { return inFile; } }
+        public String OutFile { get { return outFile; } }
+
+        public Boolean IsTmpFolderExist {
+            get; set;
+        }
+
+        public String TmpFolderName {
+            get {
+                return null;
+            }
+        }
     }
 }

@@ -21,15 +21,13 @@ class Program {
     }
 
     static void Anagrams(String inFile, String outFile) {
-        var anagramMaker = new AnagramMaker();
-        AnagramMakerUtils.InFile = inFile;
-        AnagramMakerUtils.OutFile = outFile;
+        var anagramMaker = new AnagramMaker(new AnagramMakerUtils(inFile, outFile));
 
         var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(inFile));
 
-        new FileWordWriter(outFile).Write(anagrams);
+        new FileWordWriter(outFile).Write(null);
 
-        Console.WriteLine("\nResults are successfully written in " + outFile);
+        // Console.WriteLine("\nResults are successfully written in " + outFile);
     }
 
     static void Main(String[] args) {

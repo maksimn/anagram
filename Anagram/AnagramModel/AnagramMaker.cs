@@ -8,6 +8,11 @@ namespace AnagramModel {
     public class AnagramMaker {
         private IDictionary<String, ICollection<String>> dataStucture =
             new Dictionary<String, ICollection<String>>();
+        private IAnagramUtils utils;
+
+        public AnagramMaker(IAnagramUtils utils) {
+            this.utils = utils;
+        }
 
         public void AddWord(String word) {
             if (!String.IsNullOrWhiteSpace(word)) {
@@ -21,23 +26,33 @@ namespace AnagramModel {
             }
         }
 
-        public IDictionary<String, ICollection<String>> CreateAnagramClasses(IWordReader source) {
+        public AnagramResult CreateAnagramClasses(IWordReader source) {
             Int64 counter = 0;
             String s;
             while ((s = source.NextWord()) != null) {
                 AddWord(s);
                 counter++;
-                if(counter % AnagramMakerUtils.NumOfAddedWordsBetweenMemoryChecks == 0) {
-                    Console.WriteLine("Memory: " + AnagramMakerUtils.GetTotalMemoryUsage());
-                    if (AnagramMakerUtils.GetTotalMemoryUsage() > AnagramMakerUtils.MaxMemorySize) {
-                        // Здесь нужно записать текущие результаты во временный файл,
-                        // освободить память и продолжить дальше до конца
-                        Console.WriteLine("Memory Size is more than limit.");
-                        return null; 
+                if(counter % utils.NumWordsBetweenMemoryChecks == 0 &&
+                    utils.GetTotalMemoryUsage() > utils.MaxMemorySize) {
+                    // Здесь нужно записать текущие результаты во временный файл,
+                    // освободить память и продолжить дальше до конца
+                    if (!utils.IsTmpFolderExist) {
+                        utils.CreateTmpFolder();
+                        utils.IsTmpFolderExist = true;
                     }
+                    String tmpFileName = utils.CreateFileInTmpFolder();
+                    new FileWordWriter(tmpFileName).Write(dataStucture);
+                    dataStucture = new Dictionary<String, ICollection<String>>();
                 }
             }
-            return dataStucture;
+            var anagramResult = new AnagramResult();
+            anagramResult.IsResultInTmpFolder = utils.IsTmpFolderExist;
+            if(anagramResult.IsResultInTmpFolder) {
+                anagramResult.Result = utils.TmpFolderName;
+            } else {
+                anagramResult.Result = dataStucture;
+            }
+            return anagramResult;
         }
 
         public String AnagramClass(String word) {

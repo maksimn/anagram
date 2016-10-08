@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Moq;
 
 using AnagramModel;
+using AnagramModel.Utils;
 
 [TestFixture]
 class AnagramModelTests {
@@ -13,24 +14,24 @@ class AnagramModelTests {
     [TestCase("ток", "кот")]
     [TestCase("", "")]
     public void AnagramClass_GetAnagramClass_ReturnsCorrectClass(String str, String expected) {
-        var anagramMaker = new AnagramMaker();
+        var anagramMaker = new AnagramMaker(null);
 
         Assert.AreEqual(expected, anagramMaker.AnagramClass(str));
     }
     [Test]
     public void CreateAnagramClasses_DataFromEmptyMoqObject() {
-        var anagramMaker = new AnagramMaker();
+        var anagramMaker = new AnagramMaker(new AnagramMakerUtils(null, null));
         var emptyWordReader = new Mock<IWordReader>();
         emptyWordReader.Setup(wr => wr.NextWord()).Returns((String)null);
 
         var anagrams = anagramMaker.CreateAnagramClasses(emptyWordReader.Object);
 
-        var data = anagrams;
+        var data = anagrams.Result;
         Assert.True(data.Keys.Count == 0);
     }
     [Test]
     public void CreateAnagramClasses_DataFromMoqWordReader() {
-        var anagramMaker = new AnagramMaker();
+        var anagramMaker = new AnagramMaker(new AnagramMakerUtils(null, null));
         var mockWordReader = new Mock<IWordReader>();
         mockWordReader.SetupSequence(wr => wr.NextWord())
             .Returns("колун")
@@ -46,7 +47,7 @@ class AnagramModelTests {
 
         var anagrams = anagramMaker.CreateAnagramClasses(mockWordReader.Object);
 
-        var data = anagrams;
+        var data = (IDictionary<String, ICollection<String>>)anagrams.Result;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
@@ -55,13 +56,14 @@ class AnagramModelTests {
     }
     [Test]
     public void CreateAnagramClasses_DataFromRealFile_IntegrationTest() {
-        var anagramMaker = new AnagramMaker();
+        String inFile = @"F:\Dev\Anagram\TestData\example1.txt";
+        var anagramMaker = new AnagramMaker(new AnagramMakerUtils(inFile, null));
 
         var anagrams = anagramMaker.CreateAnagramClasses(
-            new FileWordReader(@"F:\Dev\Anagram\TestData\example1.txt")    
+            new FileWordReader(inFile)    
         );
 
-        var data = anagrams;
+        var data = (IDictionary<String, ICollection<String>>)anagrams.Result;
         Assert.True(
             data.IsContainKeyAndElements("клноу", "колун", "уклон") &&
             data.IsContainKeyAndElements("кот", "кот", "кто", "ток") &&
