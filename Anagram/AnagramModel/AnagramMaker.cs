@@ -7,7 +7,7 @@ using AnagramModel.Utils;
 namespace AnagramModel {
     public class AnagramMaker {
         private IDictionary<String, ICollection<String>> dataStucture =
-            new Dictionary<String, ICollection<String>>();
+            new SortedDictionary<String, ICollection<String>>();
         private IAnagramUtils utils;
 
         public AnagramMaker(IAnagramUtils utils) {
@@ -27,22 +27,22 @@ namespace AnagramModel {
         }
 
         public AnagramResult CreateAnagramClasses(IWordReader source) {
-            Int64 counter = 0;
+            Int64 numProcessedWords = 0;
             String s;
             while ((s = source.NextWord()) != null) {
                 AddWord(s);
-                counter++;
-                if(counter % utils.NumWordsBetweenMemoryChecks == 0 &&
-                    utils.GetTotalMemoryUsage() > utils.MaxMemorySize) {
+                numProcessedWords++;
+                if(utils.ShouldReduceMemoryConsumption(numProcessedWords)) {
                     // Здесь нужно записать текущие результаты во временный файл,
                     // освободить память и продолжить дальше до конца
                     if (!utils.IsTmpFolderExist) {
                         utils.CreateTmpFolder();
-                        utils.IsTmpFolderExist = true;
                     }
-                    String tmpFileName = utils.CreateFileInTmpFolder();
+                    String tmpFileName = utils.NextTmpFileName();
                     new FileWordWriter(tmpFileName).Write(dataStucture);
                     dataStucture = new Dictionary<String, ICollection<String>>();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
             }
             return new AnagramResult(utils.IsTmpFolderExist,

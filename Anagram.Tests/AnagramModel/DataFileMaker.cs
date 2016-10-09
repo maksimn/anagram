@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 [TestFixture]
 class DataFileMaker {
-    [Test]
+    // [Test]
     public void CreateFileExample4() {
         using (StreamWriter sw = File.CreateText(@"F:\Dev\Anagram\TestData\example4.txt")) {
             for (Int32 i = 0; i < 100000; i++) {
@@ -25,7 +25,7 @@ class DataFileMaker {
 
         Assert.True(false); // Это не тест
     }
-    [Test]
+    // [Test]
     public void CreateFileExample5() {
         // С этими данными программа работает 40 секунд. 
         // Будем считать их за репер производительности для многопоточной версии.
@@ -36,7 +36,7 @@ class DataFileMaker {
 
         Assert.True(false); // Это не тест
     }
-    [Test]
+    // [Test]
     public void CreateFileExample6() {
         // Здесь будет генерироваться большой входной файл (размер 380 МБ), каждая строка которого
         // содержит уникальные данные (не повторяющиеся во всех остальных строках приложения).

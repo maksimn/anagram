@@ -2,20 +2,10 @@
 
 namespace AnagramModel.Utils {
     public interface IAnagramUtils {
-        Int32 NumWordsBetweenMemoryChecks {
-            get;
-        }
-        Int64 GetTotalMemoryUsage();
-        Int64 MaxMemorySize {
-            get;
-        }
-        Boolean IsTmpFolderExist {
-            get; set;
-        }
+        Boolean ShouldReduceMemoryConsumption(Int64 numProcessedWords);    
         void CreateTmpFolder();
-        String CreateFileInTmpFolder();
-        String TmpFolderName {
-            get;
-        }
+        String TmpFolderName { get; }
+        Boolean IsTmpFolderExist { get; }
+        String NextTmpFileName();
     }
 }
