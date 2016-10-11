@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using AnagramModel.Utils;
 
@@ -33,16 +32,14 @@ namespace AnagramModel {
                 AddWord(s);
                 numProcessedWords++;
                 if(utils.ShouldReduceMemoryConsumption(numProcessedWords)) {
-                    // Здесь нужно записать текущие результаты во временный файл,
-                    // освободить память и продолжить дальше до конца
+                    // Запись текущих результатов во временный файл, освобождение памяти
                     if (!utils.IsTmpFolderExist) {
                         utils.CreateTmpFolder();
                     }
                     String tmpFileName = utils.NextTmpFileName();
                     new FileWordWriter(tmpFileName).Write(dataStucture);
                     dataStucture = new Dictionary<String, ICollection<String>>();
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
+                    utils.FreeMemory();
                 }
             }
             return new AnagramResult(utils.IsTmpFolderExist,
@@ -53,6 +50,10 @@ namespace AnagramModel {
             Char[] chars = word.ToLower().ToCharArray();
             Array.Sort(chars);
             return new String(chars);
+        }
+
+        public void MergeTmpFilesToOutFile() {
+
         }
     }
 }

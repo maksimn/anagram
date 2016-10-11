@@ -7,5 +7,7 @@ namespace AnagramModel.Utils {
         String TmpFolderName { get; }
         Boolean IsTmpFolderExist { get; }
         String NextTmpFileName();
+        void FreeMemory();
+        String OutFile { get; }
     }
 }

@@ -37,6 +37,11 @@ namespace AnagramModel.Utils {
             return String.Format("{0}\\{1}.txt", TmpFolderName, numTmpFiles++);
         }
 
+        public void FreeMemory() {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
         public String InFile { get { return inFile; } }
         public String OutFile { get { return outFile; } }
 

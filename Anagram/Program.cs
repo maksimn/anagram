@@ -26,7 +26,7 @@ class Program {
         var anagrams = anagramMaker.CreateAnagramClasses(new FileWordReader(inFile));
 
         if (anagrams.IsResultInTmpFolder) {
-
+            anagramMaker.MergeTmpFilesToOutFile();
         } else {
             new FileWordWriter(outFile).Write(anagrams.Data);
         }
