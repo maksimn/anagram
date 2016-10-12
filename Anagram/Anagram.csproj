@@ -46,6 +46,7 @@
     <Compile Include="AnagramModel\IWordWriter.cs" />
     <Compile Include="AnagramModel\Utils\AnagramMakerUtils.cs" />
     <Compile Include="AnagramModel\Utils\IAnagramUtils.cs" />
+    <Compile Include="AnagramModel\Utils\MergeFilesHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

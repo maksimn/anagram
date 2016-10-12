@@ -14,9 +14,7 @@ class AnagramModelTests {
     [TestCase("ток", "кот")]
     [TestCase("", "")]
     public void AnagramClass_GetAnagramClass_ReturnsCorrectClass(String str, String expected) {
-        var anagramMaker = new AnagramMaker(null);
-
-        Assert.AreEqual(expected, anagramMaker.AnagramClass(str));
+        Assert.AreEqual(expected, AnagramMaker.AnagramClass(str));
     }
     [Test]
     public void CreateAnagramClasses_DataFromEmptyMoqObject() {

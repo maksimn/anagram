@@ -46,7 +46,7 @@ namespace AnagramModel {
                                                   dataStucture, utils.TmpFolderName);
         }
 
-        public String AnagramClass(String word) {
+        public static String AnagramClass(String word) {
             Char[] chars = word.ToLower().ToCharArray();
             Array.Sort(chars);
             return new String(chars);
