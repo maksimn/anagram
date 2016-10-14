@@ -13,39 +13,52 @@ namespace AnagramModel.Utils {
             using (StreamWriter sw = File.CreateText(tmpFileName)) {
                 using (StreamReader sr1 = new StreamReader(fileName1), 
                                     sr2 = new StreamReader(fileName2)) {
-                    // #Начало
-                    String line1 = sr1.ReadLine();
-                    String line2 = sr2.ReadLine();
-                    String word1 = GetWordFromLine(line1);
-                    String word2 = GetWordFromLine(line2);
-                    Int32 cmp = AnagramClassesCmp(word1, word2);
-                    if(cmp == 0) {
-                        String line = MergeLines(line1, line2);
-                        sw.WriteLine(line);
-                        // goto #Начало
-                    } else if(cmp > 0) {
-                        // #1
-                        while(AnagramClassesCmp(word1, word2) > 0) {
+                    while(true) {
+                        // #Начало
+                        String line1 = sr1.ReadLine();
+                        String line2 = sr2.ReadLine();
+                        if (line1 == null && line2 == null) {
+                            break;
+                        } else if (line1 == null && line2 != null) {
                             sw.WriteLine(line2);
-                            line2 = sr2.ReadLine();
-                            word2 = GetWordFromLine(line2);
-                        }
-                        if (AnagramClassesCmp(word1, word2) == 0) {
-                            // goto Начало
-                        } else {
-                            // goto #2
-                        }
-                    } else {
-                        // #2
-                        while(AnagramClassesCmp(word1, word2) < 0) {
+                            while((line2 = sr2.ReadLine()) != null) sw.WriteLine(line2);
+                            break;
+                        } else if (line1 != null && line2 == null) {
                             sw.WriteLine(line1);
-                            line1 = sr1.ReadLine();
-                            word1 = GetWordFromLine(line1);
+                            while ((line1 = sr1.ReadLine()) != null) sw.WriteLine(line1);
+                            break;
                         }
-                        if (AnagramClassesCmp(word1, word2) == 0) {
-                            // goto Начало
+                        String word1 = GetWordFromLine(line1);
+                        String word2 = GetWordFromLine(line2);
+                        Int32 cmp = AnagramClassesCmp(word1, word2);
+                        if (cmp == 0) {
+                            String line = MergeLines(line1, line2);
+                            sw.WriteLine(line); 
+                            continue; // goto #Начало
+                        } else if (cmp > 0) {
+                            // #1
+                            while (AnagramClassesCmp(word1, word2) > 0) {
+                                sw.WriteLine(line2);
+                                line2 = sr2.ReadLine();
+                                word2 = GetWordFromLine(line2);
+                            }
+                            if (AnagramClassesCmp(word1, word2) == 0) {
+                                continue; // goto Начало
+                            } else {
+                                // goto #2
+                            }
                         } else {
-                            // goto #1
+                            // #2
+                            while (AnagramClassesCmp(word1, word2) < 0) {
+                                sw.WriteLine(line1);
+                                line1 = sr1.ReadLine();
+                                word1 = GetWordFromLine(line1);
+                            }
+                            if (AnagramClassesCmp(word1, word2) == 0) {
+                                continue; // goto Начало
+                            } else {
+                                // goto #1
+                            }
                         }
                     }
                 }

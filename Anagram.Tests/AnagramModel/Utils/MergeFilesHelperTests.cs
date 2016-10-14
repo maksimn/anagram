@@ -28,6 +28,23 @@ class MergeFilesHelperTests {
         Assert.True(split.Count() == 2);
     }
 
+    [Test]
+    public void MergeLines_IsCorrect_Test2() {
+        String line1 = "aaa, bbb, ccc", line2 = "b, aaa, ccc, z";
+        var mfh = new MergeFilesHelper();
+
+        var res = mfh.MergeLines(line1, line2);
+
+        var split = res.Split(new String[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+        Assert.True(split.Contains("aaa"));
+        Assert.True(split.Contains("bbb"));
+        Assert.True(split.Contains("ccc"));
+        Assert.True(split.Contains("b"));
+        Assert.True(split.Contains("z"));
+        Assert.True(split.Count() == 5);
+    }
+
     [TestCase("abc", "bac", 0)]
     [TestCase("abc", "xyz", -1)]
     [TestCase("tre", "zzaaaa", 1)]
