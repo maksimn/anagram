@@ -47,6 +47,9 @@ namespace AnagramModel {
         }
 
         public static String AnagramClass(String word) {
+            if(word == null) {
+                return null;
+            }
             Char[] chars = word.ToLower().ToCharArray();
             Array.Sort(chars);
             return new String(chars);

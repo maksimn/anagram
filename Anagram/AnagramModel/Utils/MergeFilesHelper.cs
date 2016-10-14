@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace AnagramModel.Utils {
     public class MergeFilesHelper {
@@ -58,7 +59,11 @@ namespace AnagramModel.Utils {
         }
 
         public String MergeLines(String line1, String line2) {
-            return null;
+            var separ = new String[] { ", "};
+            String[] arrFromLine1 = line1.Split(separ, StringSplitOptions.RemoveEmptyEntries);
+            String[] arrFromLine2 = line2.Split(separ, StringSplitOptions.RemoveEmptyEntries);
+            String[] mergeArr = arrFromLine1.Union(arrFromLine2).ToArray<String>();
+            return String.Join(", ", mergeArr);
         }
 
         public Int32 AnagramClassesCmp(String word1, String word2) {

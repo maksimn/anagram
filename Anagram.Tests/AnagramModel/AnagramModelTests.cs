@@ -13,6 +13,7 @@ class AnagramModelTests {
     [TestCase("word", "dorw")]
     [TestCase("ток", "кот")]
     [TestCase("", "")]
+    [TestCase(null, null)]
     public void AnagramClass_GetAnagramClass_ReturnsCorrectClass(String str, String expected) {
         Assert.AreEqual(expected, AnagramMaker.AnagramClass(str));
     }
