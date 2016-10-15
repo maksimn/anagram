@@ -15,73 +15,57 @@ namespace AnagramModel.Utils {
                                     sr2 = new StreamReader(file2)) {
                     String line1 = sr1.ReadLine();
                     String line2 = sr2.ReadLine();
-                    while (true) {
-                        // #Начало
-                        if (line1 == null && line2 == null) {
-                            break;
-                        } else if (line1 == null && line2 != null) {
+                    while (!(line1 == null && line2 == null)) {
+                        if (line1 == null && line2 != null) {
                             sw.WriteLine(line2);
-                            while ((line2 = sr2.ReadLine()) != null) sw.WriteLine(line2);
+                            while ((line2 = sr2.ReadLine()) != null) {
+                                sw.WriteLine(line2);
+                            }
                             break;
                         } else if (line1 != null && line2 == null) {
                             sw.WriteLine(line1);
-                            while ((line1 = sr1.ReadLine()) != null) sw.WriteLine(line1);
+                            while ((line1 = sr1.ReadLine()) != null) {
+                                sw.WriteLine(line1);
+                            }
                             break;
                         }
                         String word1 = GetWordFromLine(line1);
                         String word2 = GetWordFromLine(line2);
-                        Int32 cmp = AnagramClassesCmp(word1, word2);
-                        if (cmp == 0) {
+                        if (AnagramClassesCmp(word1, word2) == 0) {
                             String line = MergeLines(line1, line2);
                             sw.WriteLine(line);
                             line1 = sr1.ReadLine();
                             line2 = sr2.ReadLine();
-                        } else if (cmp > 0) {
-                            // #1
-                            while(true) {
-                                while (AnagramClassesCmp(word1, word2) > 0) {
-                                    sw.WriteLine(line2);
-                                    line2 = sr2.ReadLine();
-                                    if(line2 == null) break;
-                                    word2 = GetWordFromLine(line2);
-                                }
-                                while (AnagramClassesCmp(word1, word2) < 0) {
-                                    sw.WriteLine(line1);
-                                    line1 = sr1.ReadLine();
-                                    if (line1 == null) break;
-                                    word1 = GetWordFromLine(line1);
-                                }
-                                if (AnagramClassesCmp(word1, word2) == 0)
-                                    break; // goto Начало
-                            }                            
                         } else {
-                            // #2
-                            while(true) {
-                                while (AnagramClassesCmp(word1, word2) < 0) {
-                                    sw.WriteLine(line1);
-                                    line1 = sr1.ReadLine();
-                                    if (line1 == null) break;
-                                    word1 = GetWordFromLine(line1);
-                                }
-                                while (AnagramClassesCmp(word1, word2) > 0) {
-                                    sw.WriteLine(line2);
-                                    line2 = sr2.ReadLine();
-                                    if (line2 == null) break;
-                                    word2 = GetWordFromLine(line2);
-                                }
-                                if (AnagramClassesCmp(word1, word2) == 0)
+                            while (AnagramClassesCmp(word1, word2) < 0) {
+                                sw.WriteLine(line1);
+                                line1 = sr1.ReadLine();
+                                if (line1 == null) {
                                     break;
-                            }                          
+                                }
+                                word1 = GetWordFromLine(line1);
+                            }
+                            while (AnagramClassesCmp(word1, word2) > 0) {
+                                sw.WriteLine(line2);
+                                line2 = sr2.ReadLine();
+                                if (line2 == null) {
+                                    break;
+                                }
+                                word2 = GetWordFromLine(line2);
+                            }
                         }
                     }
                 }
             }
-            File.Delete(file1); // Удаление file1            
-            File.Delete(file2); // Удаление file2            
+            File.Delete(file1);
+            File.Delete(file2);       
             File.Move(tmpFileName, file1); // Переименование tmpFile в file1
         }
 
         public String GetWordFromLine(String line) {
+            if(line == null) {
+                return null;
+            }
             return line.Contains(",") ? line.Substring(0, line.IndexOf(',')) : line;
         }
 

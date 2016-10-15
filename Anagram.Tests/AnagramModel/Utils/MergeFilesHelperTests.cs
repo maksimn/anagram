@@ -8,6 +8,7 @@ using AnagramModel.Utils;
 
 [TestFixture]
 class MergeFilesHelperTests {
+    [TestCase(null, null)]
     [TestCase("word1", "word1")]
     [TestCase("word1, word2, word3", "word1")]
     public void GetWordFromLine_IsWordCorrect(String line, String word) {
@@ -56,12 +57,11 @@ class MergeFilesHelperTests {
         Assert.AreEqual(res, realRes != 0 ? realRes / Math.Abs(realRes) : realRes);
     }
 
-    [Test]
-    public void Merge_IntegrationTest1() {
+    [TestCase(@"F:\1.txt", @"F:\2.txt")]
+    [TestCase(@"F:\2.txt", @"F:\1.txt")]
+    public void Merge_IntegrationTest1(String file1, String file2) {
         // Arrange
-        String file1 = @"F:\1.txt", 
-               file2 = @"F:\2.txt";
-        using(StreamWriter sw = File.CreateText(file1)) {
+        using (StreamWriter sw = File.CreateText(file1)) {
             sw.WriteLine("a");
             sw.WriteLine("abc, cab");
             sw.WriteLine("c");
