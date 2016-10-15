@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -52,5 +54,62 @@ class MergeFilesHelperTests {
         var mfh = new MergeFilesHelper();
         var realRes = mfh.AnagramClassesCmp(word1, word2);
         Assert.AreEqual(res, realRes != 0 ? realRes / Math.Abs(realRes) : realRes);
+    }
+
+    [Test]
+    public void Merge_IntegrationTest1() {
+        // Arrange
+        String file1 = @"F:\1.txt", 
+               file2 = @"F:\2.txt";
+        using(StreamWriter sw = File.CreateText(file1)) {
+            sw.WriteLine("a");
+            sw.WriteLine("abc, cab");
+            sw.WriteLine("c");
+        }
+        using(StreamWriter sw = File.CreateText(file2)) {
+            sw.WriteLine("bac");
+            sw.WriteLine("c");
+            sw.WriteLine("x");
+        }
+        var mfh = new MergeFilesHelper();
+
+        // Act
+        mfh.Merge(file1, file2);
+
+        // Assert
+        List<String> result = new List<String>();
+        using (StreamReader sr = new StreamReader(file1)) {
+            String line;
+            while((line = sr.ReadLine()) != null) {
+                result.Add(line);
+            }
+        }
+        String[] separ = new String[] { ", " };
+        Assert.True(
+            result.GetWordsArrayForLine(0).Contains("a")
+        );
+        Assert.True(
+            result.GetWordsArrayForLine(1).Contains("abc") &&
+            result.GetWordsArrayForLine(1).Contains("cab") &&
+            result.GetWordsArrayForLine(1).Contains("bac")
+        );
+        Assert.True(
+            result.GetWordsArrayForLine(2).Contains("c")
+        );
+        Assert.True(
+            result.GetWordsArrayForLine(3).Contains("x")
+        );
+        Assert.True(result.Count == 4);
+        Assert.True(result.GetWordsArrayForLine(0).Count() == 1);
+        Assert.True(result.GetWordsArrayForLine(1).Count() == 3);
+        Assert.True(result.GetWordsArrayForLine(2).Count() == 1);
+        Assert.True(result.GetWordsArrayForLine(3).Count() == 1);
+    }
+}
+
+static class ListStringExtensions {
+    public static String[] GetWordsArrayForLine(this List<String> collection, Int32 num) {
+        String[] separ = new String[] { ", " };
+        return collection[num].Split(separ, StringSplitOptions.RemoveEmptyEntries);
     }
 }
