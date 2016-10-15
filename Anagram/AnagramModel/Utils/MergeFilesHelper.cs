@@ -36,7 +36,6 @@ namespace AnagramModel.Utils {
                             sw.WriteLine(line);
                             line1 = sr1.ReadLine();
                             line2 = sr2.ReadLine();
-                            continue; // goto #Начало
                         } else if (cmp > 0) {
                             // #1
                             while(true) {
@@ -46,14 +45,11 @@ namespace AnagramModel.Utils {
                                     if(line2 == null) break;
                                     word2 = GetWordFromLine(line2);
                                 }
-                                if (AnagramClassesCmp(word1, word2) < 0) {
-                                    // goto #2
-                                    while (AnagramClassesCmp(word1, word2) < 0) {
-                                        sw.WriteLine(line1);
-                                        line1 = sr1.ReadLine();
-                                        if(line1 == null) break;
-                                        word1 = GetWordFromLine(line1);
-                                    }
+                                while (AnagramClassesCmp(word1, word2) < 0) {
+                                    sw.WriteLine(line1);
+                                    line1 = sr1.ReadLine();
+                                    if (line1 == null) break;
+                                    word1 = GetWordFromLine(line1);
                                 }
                                 if (AnagramClassesCmp(word1, word2) == 0)
                                     break; // goto Начало
@@ -67,14 +63,11 @@ namespace AnagramModel.Utils {
                                     if (line1 == null) break;
                                     word1 = GetWordFromLine(line1);
                                 }
-                                if (AnagramClassesCmp(word1, word2) > 0) {
-                                    // goto #1
-                                    while (AnagramClassesCmp(word1, word2) > 0) {
-                                        sw.WriteLine(line2);
-                                        line2 = sr2.ReadLine();
-                                        if (line2 == null) break;
-                                        word2 = GetWordFromLine(line2);
-                                    }
+                                while (AnagramClassesCmp(word1, word2) > 0) {
+                                    sw.WriteLine(line2);
+                                    line2 = sr2.ReadLine();
+                                    if (line2 == null) break;
+                                    word2 = GetWordFromLine(line2);
                                 }
                                 if (AnagramClassesCmp(word1, word2) == 0)
                                     break;
