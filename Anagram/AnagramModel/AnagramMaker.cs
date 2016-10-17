@@ -56,7 +56,22 @@ namespace AnagramModel {
         }
 
         public void MergeTmpFilesToOutFile() {
+            // Временная директория с временными промежуточными результатами:
+            String tmpFolderName = utils.TmpFolderName;
+            // Выходной файл с результатами:
+            String resultFileName = utils.OutFile;
 
+            var mergeFilesHelper = new MergeFilesHelper();
+            for(String[] files = mergeFilesHelper.FilesToMerge(tmpFolderName);                 
+                         files.Length != 1; 
+                         files = mergeFilesHelper.FilesToMerge(tmpFolderName)) {
+                for (Int32 i = 0; i < files.Length; i += 2) {
+                    String file1 = files[i];
+                    String file2 = i + 1 < files.Length ? files[i + 1] : null;
+                    mergeFilesHelper.Merge(file1, file2);
+                }
+            }
+            mergeFilesHelper.MoveMergeResultToOutFile(tmpFolderName, resultFileName);
         }
     }
 }

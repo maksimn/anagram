@@ -8,12 +8,14 @@ namespace AnagramModel.Utils {
         private String tmpFolderName;
         private Int32 numTmpFiles;
 
+        private const Int64 MAX_MEMORY_SIZE = 100 * 1024 * 1024; // 100 MB
+
         public AnagramMakerUtils(String inFile, String outFile) {
             this.inFile = inFile;
             this.outFile = outFile;
         }
         public Int32 NumWordsBetweenMemoryChecks { get { return 1000; } }
-        public Int64 MaxMemorySize { get { return 100 * 1024 * 1024; } } // 100 MB?
+        public Int64 MaxMemorySize { get { return MAX_MEMORY_SIZE; } } 
 
         public Int64 GetTotalMemoryUsage() {
             return GC.GetTotalMemory(false);

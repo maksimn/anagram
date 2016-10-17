@@ -5,6 +5,9 @@ using System.Linq;
 namespace AnagramModel.Utils {
     public class MergeFilesHelper {
         public void Merge(String file1, String file2) {
+            if (String.IsNullOrEmpty(file2)) {
+                return;
+            }
             String fileName1 = Path.GetFileNameWithoutExtension(file1),
                 fileName2 = Path.GetFileNameWithoutExtension(file2),
                 folder = Path.GetDirectoryName(file1);
@@ -17,16 +20,10 @@ namespace AnagramModel.Utils {
                     String line2 = sr2.ReadLine();
                     while (!(line1 == null && line2 == null)) {
                         if (line1 == null && line2 != null) {
-                            sw.WriteLine(line2);
-                            while ((line2 = sr2.ReadLine()) != null) {
-                                sw.WriteLine(line2);
-                            }
+                            for (sw.WriteLine(line2); (line2 = sr2.ReadLine()) != null; sw.WriteLine(line2));
                             break;
                         } else if (line1 != null && line2 == null) {
-                            sw.WriteLine(line1);
-                            while ((line1 = sr1.ReadLine()) != null) {
-                                sw.WriteLine(line1);
-                            }
+                            for (sw.WriteLine(line1); (line1 = sr1.ReadLine()) != null; sw.WriteLine(line1));
                             break;
                         }
                         String word1 = GetWordFromLine(line1);
@@ -81,6 +78,17 @@ namespace AnagramModel.Utils {
             return AnagramMaker.AnagramClass(word1).CompareTo(
                         AnagramMaker.AnagramClass(word2)
                    );
+        }
+
+        public String[] FilesToMerge(String directory) {
+            return Directory.GetFiles(directory, "*", SearchOption.TopDirectoryOnly);
+        }
+
+        public void MoveMergeResultToOutFile(String tmpFolderName, String resultFileName) {
+            // Переименование файла из tmpFolderName в resultFileName
+            // Удаление tmpFolderName
+            File.Move(tmpFolderName + "\\0.txt", resultFileName);
+            Directory.Delete(tmpFolderName);
         }
     }
 }
